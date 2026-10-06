@@ -1,10 +1,10 @@
 import java.util.List;
 
-public interface  EmployeeDAOinterface {
-    int insertEmployee(Employee e);
-    int deleteEmployee(int id);
-    int UpdateEmployee(Employee e);
-    Employee getEmployeeById(int id);
-    List<Employee> getAllEmployees();
+public interface  EmployeeDAOinterface  {
+    int insertEmployee(Employee e) throws DAOException;
+    int deleteEmployee(int id) throws DAOException;
+    int UpdateEmployee(Employee e) throws DAOException;
+    Employee getEmployeeById(int id) throws DAOException;
+    List<Employee> getAllEmployees() throws DAOException;
 
 }

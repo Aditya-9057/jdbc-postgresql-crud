@@ -120,8 +120,13 @@ public class EmployeeMenu{ //Controller + View
             case 6 -> System.out.println("Exiting...");
             default -> System.out.println("Invalid Choice!");
         }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+        }catch(DAOException e){
+            System.err.println("Any DAO related problem : "+e.getMessage());
+
+        }
+        
+        catch(Exception e){
+            System.err.println("Something wrong happend : "+e.getMessage());
         }
 
 

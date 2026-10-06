@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EmployeeDAO implements EmployeeDAOinterface {
     private final String INSERT_SQL = "INSERT INTO employee VALUES(?,?,?)";
     private final String DELETE_SQL = "DELETE FROM employee WHERE id=?";
@@ -13,7 +14,7 @@ public class EmployeeDAO implements EmployeeDAOinterface {
     private final String SELECT_SQL = "SELECT * FROM employee";
 
 
-    public int deleteEmployee(int id){
+    public int deleteEmployee(int id) throws DAOException{
 
             int ans = 0;
             try(Connection con = DBconnection.getConnection();
@@ -23,13 +24,13 @@ public class EmployeeDAO implements EmployeeDAOinterface {
             ans = psdelete.executeUpdate();
                 
             } catch (SQLException sqle) {
-                System.err.println("Error during deletion :"+sqle.getMessage());
+                throw new DAOException("Error during deletion : "+sqle.getMessage(),sqle);
             }
 
             return ans;
     }   
 
-    public int insertEmployee(Employee e ){
+    public int insertEmployee(Employee e ) throws DAOException{
 
         int ans = 0;
         
@@ -43,7 +44,7 @@ public class EmployeeDAO implements EmployeeDAOinterface {
             ans = psinsert.executeUpdate();
             
         } catch (SQLException sqle) {
-            System.err.println("Error during insertion "+sqle.getMessage());
+            throw new DAOException("Error during insertion : "+sqle.getMessage(),sqle);
         }
 
         return ans;
@@ -51,7 +52,7 @@ public class EmployeeDAO implements EmployeeDAOinterface {
     }
 
 
-    public Employee getEmployeeById(int id){
+    public Employee getEmployeeById(int id) throws DAOException{
         Employee e = null;
         try(Connection con = DBconnection.getConnection();
     PreparedStatement pssearch = con.prepareStatement(SELECT_BYID_SQL)){
@@ -66,13 +67,13 @@ public class EmployeeDAO implements EmployeeDAOinterface {
             }
             
         } catch (SQLException sqle) {
-            System.err.println("Error during searching "+sqle.getMessage());
+            throw new DAOException("Error during searching : "+sqle.getMessage(),sqle);
         }
 
         return e;
     }
 
-   public int UpdateEmployee(Employee e){
+   public int UpdateEmployee(Employee e) throws DAOException{
 
     int ans = 0;
     try (Connection con = DBconnection.getConnection();
@@ -85,14 +86,14 @@ public class EmployeeDAO implements EmployeeDAOinterface {
        ans = psupdate.executeUpdate();
         
     } catch (Exception sqle) {
-        System.err.println("Error during updating "+sqle.getMessage());
+        throw new DAOException("Error during updating : "+sqle.getMessage(),sqle);
     }
 
         return ans;
 
    }
 
-    public List<Employee> getAllEmployees(){
+    public List<Employee> getAllEmployees() throws DAOException{
         List<Employee> list = new ArrayList<>();
         try (Connection con = DBconnection.getConnection();
     PreparedStatement psselectall = con.prepareStatement(SELECT_SQL)) {
@@ -104,7 +105,7 @@ public class EmployeeDAO implements EmployeeDAOinterface {
         }
 
         } catch (Exception sqle) {
-            System.err.println("Error during updating "+sqle.getMessage());
+            throw new DAOException("Error during fetching : "+sqle.getMessage(),sqle);
         }
         return list;
    }
